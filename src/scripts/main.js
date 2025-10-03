@@ -10,74 +10,99 @@ let countColumn = 4;
 
 const tbody = document.querySelector('.field tbody');
 
-// додавання рядків внизу
+//  додавання рядків внизу (done)
 
-const downAdder = document.querySelectorAll('.append-row button');
+const downAdder = document.querySelectorAll('.append-row');
 
-downAdder.forEach((row) => {
-  row.addEventListener('click', () => {
-    const newTrRow = document.createElement('tr');
+if (countRow < counterMaxRow) {
+  downAdder.forEach((row) => {
+    row.addEventListener('click', () => {
+      const newTrRow = document.createElement('tr');
 
-    for (let i = 0; i < countRow; i++) {
-      const newTdRow = document.createElement('td');
+      for (let i = 0; i < countColumn; i++) {
+        const newTdRow = document.createElement('td');
 
-      newTrRow.appendChild(newTdRow);
-    }
+        newTrRow.appendChild(newTdRow);
+      }
 
-    tbody.appendChild(newTrRow);
+      tbody.appendChild(newTrRow);
 
-    countRow++;
+      countRow++;
 
-    if (countRow >= counterMaxRow) {
-      row.disabled = true;
-    }
+      if (countRow === counterMaxRow) {
+        row.disabled = true;
+      }
+    });
   });
-});
+}
 
-// видалення рядків внизу
+// видалення рядків внизу (done but not work)
 
 const downRemover = document.querySelectorAll('.remove-row button');
 
 downRemover.forEach((row) => {
   row.addEventListener('click', () => {
-    const rem = document.querySelectorAll('tr');
-    const remover = [...rem];
+    if (countRow > counterMinRow) {
+      const rem = document.querySelectorAll('tr');
+      const remover = [...rem];
 
-    for (let r = 0; r < remover.length; r++) {
-      remover.remove('td');
+      const lastRow = remover[remover.length - 1];
+
+      lastRow.remove();
+      countRow--;
     }
 
-    countRow--;
-
-    if (countRow < counterMinRow) {
+    if (countRow === counterMinRow) {
       row.disabled = true;
     }
   });
 });
 
-// додавання рядків вгорі
+// додавання рядків справа (done)
 
-const rightAdder = document.querySelectorAll('.append-column button');
+const rightAdder = document.querySelectorAll('.append-column');
 
-rightAdder.forEach((row) => {
-  row.addEventListener('click', () => {
-    const trRow = document.querySelectorAll('tr');
-    const masa = [...trRow];
+if (countColumn < counterMaxColumn) {
+  rightAdder.forEach((column) => {
+    column.addEventListener('click', () => {
+      const trColumn = document.querySelectorAll('tr');
+      const masa = [...trColumn];
 
-    for (let s = 0; s < masa.length; s++) {}
+      masa.forEach((col) => {
+        const newTdRow = document.createElement('td');
 
-    for (let i = 0; i < countColumn; i++) {
-      const newTdRow = document.createElement('td');
+        col.appendChild(newTdRow);
+      });
+      countColumn++;
 
-      trRow.appendChild(newTdRow);
+      if (countColumn === counterMaxColumn) {
+        column.disabled = true;
+      }
+    });
+  });
+}
+
+// видалення рядків справа
+
+const rightRemover = document.querySelectorAll('.remove-column button');
+
+rightRemover.forEach((column) => {
+  column.addEventListener('click', () => {
+    if (countColumn > counterMinColumn) {
+      const rem = document.querySelectorAll('tr');
+
+      rem.forEach((element) => {
+        const remover = element.querySelectorAll('td');
+
+        const lastColumn = remover[remover.length - 1];
+
+        lastColumn.remove();
+      });
+      countColumn--;
     }
 
-    trRow.appendChild(newTrRow);
-
-    countColumn++;
-
-    if (countRow >= counterMaxColumn) {
-      row.disabled = true;
+    if (countColumn === counterMinColumn) {
+      column.disabled = true;
     }
   });
 });
