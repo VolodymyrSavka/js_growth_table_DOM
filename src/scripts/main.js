@@ -5,14 +5,24 @@ const counterMinRow = 2;
 const counterMaxColumn = 10;
 const counterMinColumn = 2;
 
-let countRow = 4;
-let countColumn = 4;
+const tbody = document.querySelectorAll('.field tbody');
 
-const tbody = document.querySelector('.field tbody');
+const countTr = tbody.querySelectorAll('.field tr');
+let countRow = countTr.length;
+
+let countColumn = 0;
+
+if (countRow > 0) {
+  const firstRow = countTr[0];
+
+  const columnsIn = firstRow.querySelectorAll('td');
+
+  countColumn = columnsIn.length;
+}
 
 //  додавання рядків внизу (done)
 
-const downAdder = document.querySelectorAll('.append-row');
+const downAdder = tbody.querySelectorAll('.append-row button');
 
 if (countRow < counterMaxRow) {
   downAdder.forEach((row) => {
@@ -38,12 +48,12 @@ if (countRow < counterMaxRow) {
 
 // видалення рядків внизу (done but not work)
 
-const downRemover = document.querySelectorAll('.remove-row button');
+const downRemover = tbody.querySelectorAll('.remove-row button');
 
 downRemover.forEach((row) => {
   row.addEventListener('click', () => {
     if (countRow > counterMinRow) {
-      const rem = document.querySelectorAll('tr');
+      const rem = tbody.querySelectorAll('tr');
       const remover = [...rem];
 
       const lastRow = remover[remover.length - 1];
@@ -60,16 +70,16 @@ downRemover.forEach((row) => {
 
 // додавання рядків справа (done)
 
-const rightAdder = document.querySelectorAll('.append-column');
+const rightAdder = tbody.querySelectorAll('.append-column button');
 
 if (countColumn < counterMaxColumn) {
   rightAdder.forEach((column) => {
     column.addEventListener('click', () => {
-      const trColumn = document.querySelectorAll('tr');
+      const trColumn = tbody.querySelectorAll('tr');
       const masa = [...trColumn];
 
       masa.forEach((col) => {
-        const newTdRow = document.createElement('td');
+        const newTdRow = tbody.createElement('td');
 
         col.appendChild(newTdRow);
       });
@@ -84,12 +94,12 @@ if (countColumn < counterMaxColumn) {
 
 // видалення рядків справа
 
-const rightRemover = document.querySelectorAll('.remove-column button');
+const rightRemover = tbody.querySelectorAll('.remove-column button');
 
 rightRemover.forEach((column) => {
   column.addEventListener('click', () => {
     if (countColumn > counterMinColumn) {
-      const rem = document.querySelectorAll('tr');
+      const rem = tbody.querySelectorAll('tr');
 
       rem.forEach((element) => {
         const remover = element.querySelectorAll('td');
